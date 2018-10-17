@@ -4,7 +4,7 @@ module Julian where
 
 type GregorianToJulian = Int -> Int -> Double -> Double
 
-deltaT = 70
+deltaT = 70 :: Double
 
 julianDay :: GregorianToJulian
 julianDay y m d =
@@ -23,10 +23,13 @@ julianDay y m d =
           d - 1524.5
 
 julianEphemerisDay :: GregorianToJulian
-julianEphemerisDay y m d = julianDay y m d + (deltaT / 86400)
+julianEphemerisDay y m d = julianDay y m d + deltaT / 86400
 
 julianCentury :: GregorianToJulian
 julianCentury y m d = (julianDay y m d - 2451545) / 36525
 
 julianEphemerisCentury :: GregorianToJulian
 julianEphemerisCentury y m d = (julianEphemerisDay y m d - 2451545) / 36525
+
+julianEphemerisMillenium :: GregorianToJulian
+julianEphemerisMillenium y m d = julianEphemerisCentury y m d / 10
