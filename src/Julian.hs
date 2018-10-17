@@ -1,16 +1,19 @@
--- | 
+-- |
 
 module Julian where
 
 julianDay :: Int -> Int -> Double -> Double
 julianDay y m d =
-  let (y1, m1) = if m > 2
-               then (fromIntegral y, fromIntegral m)
-               else (fromIntegral(y - 1), fromIntegral(m + 12))
-      a = floor(y1 / 100.0)
+  let yi = fromIntegral(if m > 2 then y else y - 1)
+      mi = fromIntegral(if m > 2 then m else m + 12)
+      julian_cal_day = julianDay_ yi mi 0
+      a = floor(yi / 100)
       b = 2 - a + floor((fromIntegral a) / 4) in
-    fromIntegral(floor(365.25 * (y1 + 4716))) +
-    fromIntegral(floor(30.6001 * (m1 + 1))) +
-    d +
-    (fromIntegral b) -
-    1524.5
+    if julian_cal_day < 2299160
+    then julian_cal_day
+    else julianDay_ yi mi b
+  where julianDay_ y m b =
+          fromIntegral(floor(365.25 * (y + 4716)) +
+                       floor(30.6001 * (m + 1)) +
+                       b) +
+          d - 1524.5
