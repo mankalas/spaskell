@@ -5,6 +5,7 @@ module Heliocentric where
 import Julian
 import LTerms
 import BTerms
+import RTerms
 import Utilities
 
 -- Lx_i
@@ -17,17 +18,20 @@ earthPeriodicTerm d terms =
 earthPeriodicTermSummation :: GregorianDate -> (Int -> (Double, Double, Double)) -> Double
 earthPeriodicTermSummation d term = sum $ map (earthPeriodicTerm d) $ map term [0..63]
 
-earthCoordinate :: [Int -> (Double, Double, Double)] -> GregorianDate -> Double
-earthCoordinate terms d =
-  (sum $ map earthValue [0..5]) / 1e8
-  where earthValue i =
-          let jme = julianEphemerisMillenium d in
-            earthPeriodicTermSummation d (terms !! i) * jme ^^ i
+earthValues :: [Int -> (Double, Double, Double)] -> GregorianDate -> Double
+earthValues terms d =
+  let jme = julianEphemerisMillenium d in
+    (sum $ map (earthValue jme) [0..5]) / 1e8
+  where earthValue jme i = earthPeriodicTermSummation d (terms !! i) * jme ^^ i
 
--- L_r
+-- L
 earthLongitude :: GregorianDate -> Double
-earthLongitude = limitDegrees . radianToDegree . earthCoordinate [l0, l1, l2, l3, l4, l5]
+earthLongitude = limitDegrees . radianToDegree . earthValues [l0, l1, l2, l3, l4, l5]
 
--- B_r
+-- B
 earthLatitude :: GregorianDate -> Double
-earthLatitude = radianToDegree . earthCoordinate [b0, b1, b2, b3, b4, b5]
+earthLatitude = radianToDegree . earthValues [b0, b1, b2, b3, b4, b5]
+
+-- R
+earthRadiusVector :: GregorianDate -> Double
+earthRadiusVector = earthValues [r0, r1, r2, r3, r4, r5]
