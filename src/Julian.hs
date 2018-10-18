@@ -2,12 +2,12 @@
 
 module Julian where
 
-type GregorianToJulian = Int -> Int -> Double -> Double
+type GregorianDate = (Int, Int, Double)
 
 deltaT = 70 :: Double
 
-julianDay :: GregorianToJulian
-julianDay y m d =
+julianDay :: GregorianDate -> Double
+julianDay (y, m, d) =
   let yi = fromIntegral(if m > 2 then y else y - 1)
       mi = fromIntegral(if m > 2 then m else m + 12)
       julian_cal_day = julianDay_ yi mi 0
@@ -22,14 +22,14 @@ julianDay y m d =
                        b) +
           d - 1524.5
 
-julianEphemerisDay :: GregorianToJulian
-julianEphemerisDay y m d = julianDay y m d + deltaT / 86400
+julianEphemerisDay :: GregorianDate -> Double
+julianEphemerisDay d = julianDay d + deltaT / 86400
 
-julianCentury :: GregorianToJulian
-julianCentury y m d = (julianDay y m d - 2451545) / 36525
+julianCentury :: GregorianDate -> Double
+julianCentury d = (julianDay d - 2451545) / 36525
 
-julianEphemerisCentury :: GregorianToJulian
-julianEphemerisCentury y m d = (julianEphemerisDay y m d - 2451545) / 36525
+julianEphemerisCentury :: GregorianDate -> Double
+julianEphemerisCentury d = (julianEphemerisDay d - 2451545) / 36525
 
-julianEphemerisMillenium :: GregorianToJulian
-julianEphemerisMillenium y m d = julianEphemerisCentury y m d / 10
+julianEphemerisMillenium :: GregorianDate -> Double
+julianEphemerisMillenium d = julianEphemerisCentury d / 10
