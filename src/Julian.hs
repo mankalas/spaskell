@@ -22,14 +22,14 @@ julianDay (y, m, d) =
                        b) +
           d - 1524.5
 
-julianEphemerisDay :: GregorianDate -> Double
-julianEphemerisDay d = julianDay d + deltaT / 86400
+julianEphemerisDay :: Double -> Double
+julianEphemerisDay = (+) (deltaT / 86400)
 
-julianCentury :: GregorianDate -> Double
-julianCentury d = (julianDay d - 2451545) / 36525
+julianCentury :: Double -> Double
+julianCentury jd = (jd - 2451545) / 36525
 
-julianEphemerisCentury :: GregorianDate -> Double
-julianEphemerisCentury d = (julianEphemerisDay d - 2451545) / 36525
+julianEphemerisCentury :: Double -> Double
+julianEphemerisCentury jde = (jde - 2451545) / 36525
 
-julianEphemerisMillenium :: GregorianDate -> Double
-julianEphemerisMillenium d = julianEphemerisCentury d / 10
+julianEphemerisMillenium :: Double -> Double
+julianEphemerisMillenium = (/) 10
