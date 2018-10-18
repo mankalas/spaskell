@@ -21,7 +21,9 @@ earthPeriodicTermSummation jme term = sum $ map (earthPeriodicTerm jme) $ map te
 earthValues :: [EarthTerm] -> Double -> Double
 earthValues terms jme =
   (sum $ map earthValue [0..5]) / 1e8
-  where earthValue i = earthPeriodicTermSummation jme (terms !! i) * jme ^^ i
+  where earthValue i =
+          let term = if i < length terms then terms !! i else const (0, 0, 0) in
+            earthPeriodicTermSummation jme term * jme ^^ i
 
 -- L
 earthLongitude :: Double -> Double
@@ -29,8 +31,8 @@ earthLongitude = limitDegrees . radianToDegree . earthValues [l0, l1, l2, l3, l4
 
 -- B
 earthLatitude :: Double -> Double
-earthLatitude = radianToDegree . earthValues [b0, b1, b2, b3, b4, b5]
+earthLatitude = radianToDegree . earthValues [b0, b1]
 
 -- R
 earthRadiusVector :: Double -> Double
-earthRadiusVector = earthValues [r0, r1, r2, r3, r4, r5]
+earthRadiusVector = earthValues [r0, r1, r2, r3, r4]
