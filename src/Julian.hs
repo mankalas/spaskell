@@ -5,8 +5,8 @@ module Julian where
 -- Year, Month, Day, Hour, Minute, Second, Time Zone
 type GregorianDate = (Int, Int, Int, Int, Int, Int, Double)
 
-deltaT = 70 :: Double
-deltaUT1 = 0.036687 :: Double
+deltaT = 64.797
+deltaUT1 = 0
 
 julianDay_ :: Int -> Int -> Double -> Int -> Double
 julianDay_ y m d b =
@@ -24,7 +24,7 @@ julianDay (y, m, d, h, min, s, tz) =
       new_m = if m > 2 then m else m + 12
       y_i = fromIntegral(new_y)
       m_i = fromIntegral(new_m)
-      s_i = ((fromIntegral s) + deltaUT1) / 60
+      s_i = ((fromIntegral s) + deltaUT1)
       min_i = ((fromIntegral min) + s_i) / 60
       h_i = (fromIntegral h) - tz + min_i / 60
       d_i = (fromIntegral d) + h_i / 24
