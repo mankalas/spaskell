@@ -5,6 +5,7 @@ import Test.Tasty.HUnit
 
 import Julian
 import Heliocentric
+import Geocentric
 
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.178 -- degrees
@@ -30,6 +31,9 @@ jme = julianEphemerisMillenium . jce
 ehlong = earthLongitude . jme
 ehlat = earthLatitude . jme
 ehrv = earthRadiusVector . jme
+
+long = longitude . ehlong
+lat = latitude . ehlat
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -62,6 +66,8 @@ jan012000 =
     assertEqual "Earth heliocentric longitude" 100.37854123103729 $ ehlong d
     assertEqual "Earth heliocentric latitude" (-1.8934747170755355e-4) $ ehlat d
     assertEqual "Earth radius vector" 0.9833275767119815 $ ehrv d
+    assertEqual "Geocentric longitude" 280.3785412310373 $ long d
+    assertEqual "Geocentric latitude" 1.8934747170755355e-4 $ lat d
 
 main :: IO ()
 main = do
