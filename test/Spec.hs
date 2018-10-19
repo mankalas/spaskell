@@ -4,6 +4,8 @@ import Test.Tasty
 import Test.Tasty.HUnit
 
 import Julian
+import Heliocentric
+
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.178 -- degrees
 observerTimeZone = -7.0 -- hours
@@ -24,6 +26,10 @@ jc  = julianCentury . julianDay
 jde = julianEphemerisDay . julianDay
 jce = julianEphemerisCentury . jde
 jme = julianEphemerisMillenium . jce
+
+ehlong = earthLongitude . jme
+ehlat = earthLatitude . jme
+ehrv = earthRadiusVector . jme
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -53,6 +59,9 @@ jan012000 =
     assertEqual "Julian ephemeris day" 2451545.000749965 $ jde d
     assertEqual "Julian ephemeris century" 2.0532928085914627e-8 $ jce d -- Differ from spa.c from here
     assertEqual "Julian ephemeris millennium" 2.0532928085914627e-9 $ jme d
+    assertEqual "Earth heliocentric longitude" 100.37854123103729 $ ehlong d
+    assertEqual "Earth heliocentric latitude" (-1.8934747170755355e-4) $ ehlat d
+    assertEqual "Earth radius vector" 0.9833275767119815 $ ehrv d
 
 main :: IO ()
 main = do
