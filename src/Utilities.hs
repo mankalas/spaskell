@@ -15,3 +15,6 @@ limitDegrees d =
     if limited < 0
     then limited + 360
     else limited
+
+thirdOrderPolynomial :: Double -> Double -> Double -> Double -> Double -> Double
+thirdOrderPolynomial a b c d jce = ((a * jce + b) * jce + c) * jce + d

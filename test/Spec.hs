@@ -6,6 +6,7 @@ import Test.Tasty.HUnit
 import Julian
 import Heliocentric
 import Geocentric
+import Nutation
 
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.178 -- degrees
@@ -32,8 +33,17 @@ ehlong = earthLongitude . jme
 ehlat = earthLatitude . jme
 ehrv = earthRadiusVector . jme
 
-long = longitude . ehlong
-lat = latitude . ehlat
+glong = Geocentric.longitude . ehlong
+glat = Geocentric.latitude . ehlat
+
+x0 = meanElongationMoonSun_ . jce
+x1 = meanAnomalySun_ . jce
+x2 = meanAnomalyMoon_ . jce
+x3 = argumentLatitudeMoon_ . jce
+x4 = ascendingLongitudeMoon_ . jce
+nlong = Nutation.longitude . jce
+nobli = obliquity . jce
+
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -66,8 +76,17 @@ jan012000 =
     assertEqual "Earth heliocentric longitude" 100.37854123103729 $ ehlong d
     assertEqual "Earth heliocentric latitude" (-1.8934747170755355e-4) $ ehlat d
     assertEqual "Earth radius vector" 0.9833275767119815 $ ehrv d
-    assertEqual "Geocentric longitude" 280.3785412310373 $ long d
-    assertEqual "Geocentric latitude" 1.8934747170755355e-4 $ lat d
+    assertEqual "Geocentric longitude" 280.3785412310373 $ glong d
+    assertEqual "Geocentric latitude" 1.8934747170755355e-4 $ glat d
+
+    assertEqual "Mean elongation (moon-sun)" 297.85950263757906 $ x0 d
+    assertEqual "Mean anomaly (sun)" 357.5284591659118 $ x1 d
+    assertEqual "Mean anomaly (moon)" 134.97277829002695 $ x2 d
+    assertEqual "Argument latitude (moon)" 93.28183155227708 $ x3 d
+    assertEqual "Ascending longitude (moon)" 125.04448028651925 $ x4 d
+
+    assertEqual "Nutation Longitude" (-0.003867) $ nlong d
+    assertEqual "Nutation Obliquity" (-0.001606) $ nobli d
 
 main :: IO ()
 main = do
