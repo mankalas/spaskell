@@ -10,7 +10,7 @@ meanElongationMoonSun_ = thirdOrderPolynomial (1 / 189474) (-1.9142e-3) 445267.1
 
 meanAnomalySun_ :: Double -- ^ Julian Ephemeris Millenium
                 -> Double
-meanAnomalySun_ = thirdOrderPolynomial (-3e-6) (-1.603e-4) 35999.050340 357.52772
+meanAnomalySun_ = thirdOrderPolynomial (-1 / 300000) (-1.603e-4) 35999.050340 357.52772
 
 meanAnomalyMoon_ :: Double -- ^ Julian Ephemeris Millenium
                  -> Double
@@ -45,25 +45,18 @@ xyTermSummation_ (m, n) f jce i =
   let sum_xy =  xyProductSummation_ jce i in
     (m + n * jce) * f sum_xy
 
-longitude_ :: Double -> Int -> Double
-longitude_ jce i =
-  let (a, b) = longCoef i in
-    xyTermSummation_ (a, b) sin jce i
-
-obliquity_ :: Double -> Int -> Double
-obliquity_ jce i =
-  let (c, d) = obliCoef i in
-    xyTermSummation_ (c, d) cos jce i
-
-nutation_ :: (Double -> Int -> Double) -- ^ Either longitude_ or obliquity_
+nutation_ :: (Int -> (Double, Double)) -- ^ Coefficient function
+          -> (Double -> Double) -- ^ Either sin or cos
           -> Double -- ^ Julien Ephemeris Century
           -> Double -- ^ Either Delta Phi or Delta Epsilon
-nutation_ f jce = sum (map (f jce) [0..62]) / 36000000
+nutation_ coef trig jce =
+  sum (map (f coef jce) [0..62]) / 36000000
+  where f coef jce i = xyTermSummation_ (coef i) trig jce i
 
 longitude :: Double -- ^ Julian Ephemeris Century
           -> Double
-longitude = nutation_ longitude_
+longitude = nutation_ longCoef sin
 
 obliquity :: Double -- ^ Julian Ephemeris Century
           -> Double
-obliquity = nutation_ obliquity_
+obliquity = nutation_ obliCoef cos
