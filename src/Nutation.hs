@@ -22,7 +22,7 @@ argumentLatitudeMoon_ = thirdOrderPolynomial (1 / 327270) (-3.6825e-3) 483202.01
 
 ascendingLongitudeMoon_ :: Double -- ^ Julian Ephemeris Millenium
                         -> Double
-ascendingLongitudeMoon_ = thirdOrderPolynomial 4.5e-5 2.0708e-3 (-1934.136261) 125.04452
+ascendingLongitudeMoon_ = thirdOrderPolynomial (1 / 450000) 2.0708e-3 (-1934.136261) 125.04452
 
 x 0 = meanElongationMoonSun_
 x 1 = meanAnomalySun_
