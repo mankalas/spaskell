@@ -4,8 +4,11 @@ module Geocentric where
 
 import Utilities
 
-longitude :: Double -> Double
+--
+longitude :: Double -- ^ Earth heliocentric longitude
+          -> Double
 longitude l = limitDegrees $ l + 180
 
-latitude :: Double -> Double
+latitude :: Double -- ^ Earth heliocentric latitude
+         -> Double
 latitude = negate

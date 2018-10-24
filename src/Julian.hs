@@ -8,7 +8,11 @@ type GregorianDate = (Int, Int, Int, Int, Int, Int, Double)
 deltaT = 64.797
 deltaUT1 = 0
 
-julianDay_ :: Int -> Int -> Double -> Int -> Double
+julianDay_ :: Int -- ^ Year
+           -> Int -- ^ Month
+           -> Double -- ^ Partial day
+           -> Int -- ^ B term
+           -> Double
 julianDay_ y m d b =
   let y_i = fromIntegral(y)
       m_i = fromIntegral(m) in
@@ -35,14 +39,18 @@ julianDay (y, m, d, h, min, s, tz) =
     then julian_cal_day
     else julianDay_ new_y new_m d_i b
 
-julianEphemerisDay :: Double -> Double
+julianEphemerisDay :: Double -- ^ Julian Day
+                   -> Double
 julianEphemerisDay jd = jd + (deltaT / 86400)
 
-julianCentury :: Double -> Double
+julianCentury :: Double -- ^ Julian Day
+              -> Double
 julianCentury jd = (jd - 2451545) / 36525
 
-julianEphemerisCentury :: Double -> Double
+julianEphemerisCentury :: Double -- ^ Julian Ephemeris Day
+                       -> Double
 julianEphemerisCentury jde = (jde - 2451545) / 36525
 
-julianEphemerisMillenium :: Double -> Double
-julianEphemerisMillenium jce = jce / 10
+julianEphemerisMillenium :: Double -- ^ Julian Ephemeris Century
+                         -> Double
+julianEphemerisMillenium = flip (/) 10
