@@ -21,7 +21,8 @@ surfaceSlope = 0 -- degrees
 atmosphericRefractionAtSunriseAndSunset = 0.5667 -- degrees
 
 tests = [
-  jan012000
+--  jan012000
+  oct172003123030tsm7
   ]
 
 jc  = julianCentury . julianDay
@@ -87,6 +88,32 @@ jan012000 =
 
     assertEqual "Nutation Longitude" (-0.003867) $ nlong d
     assertEqual "Nutation Obliquity" (-0.001606) $ nobli d
+
+oct172003123030tsm7 :: TestTree
+oct172003123030tsm7 =
+  let d = (2003, 10, 17, 12, 30, 30, (-7)) in
+    testCase "October 17, 2003 12:30:30 UT TZ -7" $ do
+    assertEqual "Julian day" 2452930.292361111 $ julianDay d
+    assertEqual "Julian century" 0.037927237812756046 $ jc d
+    assertEqual "Julian ephemeris day" 2452930.293111076 $ jde d
+    assertEqual "Julian ephemeris century" 0.03792725834568413 $ jce d -- Differ from spa.c from here
+    assertEqual "Julian ephemeris millennium" 0.0037927258345684133 $ jme d
+
+    assertEqual "Earth heliocentric longitude" 23.99790778438188 $ ehlong d -- SPA: 24.0182616917
+    assertEqual "Earth heliocentric latitude" (-1.0073878657373277e-4) $ ehlat d -- SPA: (-1.011219e-4)
+    assertEqual "Earth radius vector" 0.9965479540978688 $ ehrv d -- SPA: 0.99654229745
+    assertEqual "Geocentric longitude" 203.99790778438188 $ glong d -- SPA: 204.0182616917
+    assertEqual "Geocentric latitude" 1.0073878657373277e-4 $ glat d -- SPA: 0.0001011219
+
+    assertEqual "Mean elongation (moon-sun)" 17185.611127185253 $ x0 d
+    assertEqual "Mean anomaly (sun)" 1722.8730022137167 $ x1 d
+    assertEqual "Mean anomaly (moon)" 18233.807718583503 $ x2 d
+    assertEqual "Argument latitude (moon)" 18419.799657022497 $ x3 d
+    assertEqual "Ascending longitude (moon)" 51.6880373322167 $ x4 d
+
+    assertEqual "Nutation Longitude" (-0.00399840) $ nlong d -- SPA: -0.00399840
+    assertEqual "Nutation Obliquity" (-0.001606) $ nobli d -- SPA: 0.00166657
+
 
 main :: IO ()
 main = do
