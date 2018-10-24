@@ -10,6 +10,7 @@ import Nutation
 import TrueObliquity
 import AberrationCorrection
 import ApparentSunLongitude
+import ApparentSideralTime
 
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.178 -- degrees
@@ -28,8 +29,9 @@ tests = [
   oct172003123030tsm7
   ]
 
-jc  = julianCentury . julianDay
-jde = julianEphemerisDay . julianDay
+jd = julianDay
+jc  = julianCentury . jd
+jde = julianEphemerisDay . jd
 jce = julianEphemerisCentury . jde
 jme = julianEphemerisMillenium . jce
 
@@ -51,6 +53,7 @@ nobli = obliquity . jce
 teobli d = trueEclipticObliquity (meanEclipticObliquity $ jme d) (nobli d)
 ac = aberrationCorrection . ehrv
 asl d = apparentSunLongitude (glong d) (nlong d) (ac d)
+ast d = apparentSideralTime (meanSideralTime (jd d) (jc d)) (nlong d) (teobli d)
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -125,5 +128,6 @@ oct172003123030tsm7 =
     assertEqual "Aberration Correction" (-5.711326873640995e-3) $ ac d -- Manual: -0.00567193121257403
     assertEqual "Apparent Sun Longitude" 203.9881976913291 $ asl d -- SPA: 204.0085519281, Manual: 203.988237453169
 
+    assertEqual "Apparent sideral time" 311.1208707057544 $ ast d -- Manual: 311.120870661161
 main :: IO ()
 main = defaultMain (testGroup " SPA " tests)
