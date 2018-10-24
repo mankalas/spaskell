@@ -7,6 +7,7 @@ import Julian
 import Heliocentric
 import Geocentric
 import Nutation
+import TrueObliquity
 
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.178 -- degrees
@@ -44,6 +45,8 @@ x3 = argumentLatitudeMoon_ . jce
 x4 = ascendingLongitudeMoon_ . jce
 nlong = Nutation.longitude . jce
 nobli = obliquity . jce
+
+teobli d = trueEclipticObliquity (meanEclipticObliquity $ jme d) (nobli d)
 
 
 -- julianDayTest :: TestTree
@@ -114,6 +117,7 @@ oct172003123030tsm7 =
     assertEqual "Nutation Longitude" (-3.998766179133264e-3) $ nlong d -- SPA: -0.00399840
     assertEqual "Nutation Obliquity" 1.6665147765963365e-3 $ nobli d -- SPA: 0.00166657
 
+    assertEqual "True Ecliptic Obliquity" 23.440464473642695 $ teobli d -- SPA: 23.440465
 
 
 main :: IO ()
