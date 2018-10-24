@@ -93,7 +93,7 @@ oct172003123030tsm7 :: TestTree
 oct172003123030tsm7 =
   let d = (2003, 10, 17, 12, 30, 30, -7) in
     testCase "October 17, 2003 12:30:30 UT TZ -7" $ do
-    assertEqual "Julian day" 2452930.292361111 $ julianDay d
+    assertEqual "Julian day" 2452930.292361111 $ julianDay d -- SPA: 2452930.312847
     assertEqual "Julian century" 0.037927237812756046 $ jc d
     assertEqual "Julian ephemeris day" 2452930.293111076 $ jde d
     assertEqual "Julian ephemeris century" 0.03792725834568413 $ jce d -- Differ from spa.c from here
@@ -105,14 +105,15 @@ oct172003123030tsm7 =
     assertEqual "Geocentric longitude" 203.99790778438188 $ glong d -- SPA: 204.0182616917
     assertEqual "Geocentric latitude" 1.0073878657373277e-4 $ glat d -- SPA: 0.0001011219
 
-    assertEqual "Mean elongation (moon-sun)" 17185.611127185253 $ x0 d
-    assertEqual "Mean anomaly (sun)" 1722.8730022137167 $ x1 d
-    assertEqual "Mean anomaly (moon)" 18233.807718583503 $ x2 d
-    assertEqual "Argument latitude (moon)" 18419.799657022497 $ x3 d
-    assertEqual "Ascending longitude (moon)" 51.6880373322167 $ x4 d
+    assertEqual "Mean elongation (moon-sun)" 17185.611127185253 $ x0 d -- Manual: 17185.6111271853
+    assertEqual "Mean anomaly (sun)" 1722.8730022136986 $ x1 d -- Manual: 1722.8730022137
+    assertEqual "Mean anomaly (moon)" 18233.807718583503 $ x2 d -- Manual: 18233.8077185835
+    assertEqual "Argument latitude (moon)" 18419.799657022497 $ x3 d -- Manual: 18419.7996570225
+    assertEqual "Ascending longitude (moon)" 51.68803733221671 $ x4 d -- Manual: 51.6880373322167
 
-    assertEqual "Nutation Longitude" (-0.00399840) $ nlong d -- SPA: -0.00399840
-    assertEqual "Nutation Obliquity" (-0.001606) $ nobli d -- SPA: 0.00166657
+    assertEqual "Nutation Longitude" (-3.998766179133264e-3) $ nlong d -- SPA: -0.00399840
+    assertEqual "Nutation Obliquity" 1.6665147765963365e-3 $ nobli d -- SPA: 0.00166657
+
 
 
 main :: IO ()
