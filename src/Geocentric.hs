@@ -1,10 +1,7 @@
--- | 
-
 module Geocentric where
 
 import Utilities
 
---
 longitude :: Double -- ^ Earth heliocentric longitude
           -> Double
 longitude l = limitDegrees $ l + 180

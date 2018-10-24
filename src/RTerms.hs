@@ -1,5 +1,3 @@
--- |
-
 module RTerms where
 
 r0 0  = (100013989.0, 0, 0)

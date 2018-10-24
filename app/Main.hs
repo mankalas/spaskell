@@ -8,4 +8,4 @@ import Data.Time.Calendar.Julian
 test = toJulianYearAndDay $ fromGregorian (-4712) 1 1
 
 main :: IO ()
-main = putStrLn $ show test
+main = print test

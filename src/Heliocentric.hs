@@ -1,5 +1,3 @@
--- |
-
 module Heliocentric where
 
 import Julian
@@ -22,13 +20,13 @@ earthPeriodicTerm_ (a, b, c) jme = a * cos(b + c * jme)
 earthPeriodicTermSummation_ :: EarthTerm -- ^ One of Lx, Bx or Rx term
                                -> Double -- ^ Julian Ephemeris Millenium
                                -> Double -- ^
-earthPeriodicTermSummation_ (term, max) jme = sum $ map (flip earthPeriodicTerm_ jme) $ map term [0..max - 1]
+earthPeriodicTermSummation_ (term, max) jme = sum $ map ((`earthPeriodicTerm_` jme) . term) [0..max - 1]
 
 earthValues_ :: [EarthTerm] -- ^ Array of Lx, Bx or Rx terms
              -> Double -- ^ Julian Ephemeris Millenium
              -> Double -- ^ Either L, B or R, according to the given terms
 earthValues_ terms jme =
-  (sum $ map earthValue_ [0..5]) / 1e8
+  sum (map earthValue_ [0..5]) / 1e8
   where earthValue_ i =
           let term = if i < length terms then terms !! i else (const (0, 0, 0), 1) in
             earthPeriodicTermSummation_ term jme * jme ^^ i

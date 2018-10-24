@@ -1,5 +1,3 @@
--- | 
-
 module Utilities where
 
 radianToDegree :: Double -> Double

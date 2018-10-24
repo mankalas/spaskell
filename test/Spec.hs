@@ -91,7 +91,7 @@ jan012000 =
 
 oct172003123030tsm7 :: TestTree
 oct172003123030tsm7 =
-  let d = (2003, 10, 17, 12, 30, 30, (-7)) in
+  let d = (2003, 10, 17, 12, 30, 30, -7) in
     testCase "October 17, 2003 12:30:30 UT TZ -7" $ do
     assertEqual "Julian day" 2452930.292361111 $ julianDay d
     assertEqual "Julian century" 0.037927237812756046 $ jc d
@@ -116,5 +116,4 @@ oct172003123030tsm7 =
 
 
 main :: IO ()
-main = do
-  defaultMain (testGroup " SPA " tests)
+main = defaultMain (testGroup " SPA " tests)

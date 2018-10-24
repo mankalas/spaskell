@@ -1,5 +1,3 @@
--- | 
-
 module AberrationCorrection where
 
 import Heliocentric

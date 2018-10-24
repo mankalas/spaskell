@@ -1,5 +1,3 @@
--- |
-
 module LTerms where
 
 l0 0 =  (175347046.0, 0, 0)

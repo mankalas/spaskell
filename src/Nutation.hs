@@ -1,5 +1,3 @@
--- |
-
 module Nutation where
 
 import Utilities
@@ -24,7 +22,7 @@ argumentLatitudeMoon_ = thirdOrderPolynomial (1 / 327270) (-3.6825e-3) 483202.01
 
 ascendingLongitudeMoon_ :: Double -- ^ Julian Ephemeris Millenium
                         -> Double
-ascendingLongitudeMoon_ = thirdOrderPolynomial (4.5e-5) 2.0708e-3 (-1934.136261) 125.04452
+ascendingLongitudeMoon_ = thirdOrderPolynomial 4.5e-5 2.0708e-3 (-1934.136261) 125.04452
 
 x 0 = meanElongationMoonSun_
 x 1 = meanAnomalySun_
@@ -60,12 +58,12 @@ obliquity_ jce i =
 nutation_ :: (Double -> Int -> Double) -- ^ Either longitude_ or obliquity_
           -> Double -- ^ Julien Ephemeris Century
           -> Double -- ^ Either Delta Phi or Delta Epsilon
-nutation_ f jce = (sum $ map (f jce) [0..62]) / 36000000
+nutation_ f jce = sum (map (f jce) [0..62]) / 36000000
 
 longitude :: Double -- ^ Julian Ephemeris Century
           -> Double
-longitude jce = nutation_ longitude_ jce
+longitude = nutation_ longitude_
 
 obliquity :: Double -- ^ Julian Ephemeris Century
           -> Double
-obliquity jce = nutation_ obliquity_ jce
+obliquity = nutation_ obliquity_

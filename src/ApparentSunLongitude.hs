@@ -1,5 +1,3 @@
--- | 
-
 module ApparentSunLongitude where
 
 apparentSunLongitude :: Double -- ^ Geocentric longitude

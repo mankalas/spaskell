@@ -1,5 +1,3 @@
--- | 
-
 module YTerms where
 
 y :: Int -> Int -> Int

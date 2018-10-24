@@ -1,8 +1,5 @@
--- | 
-
 module NutationTerms where
 
-longCoef :: Int -> (Double, Double)
 longCoef 0 =  (-171996, -174.2)
 longCoef 1 =  (-13187, -1.6)
 longCoef 2 =  (-2274, -0.2)
