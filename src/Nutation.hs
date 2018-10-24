@@ -42,7 +42,7 @@ xyTermSummation_ :: (Double, Double) -- ^ Pair of either (a, b) or (c, d)
                  -> Int -- ^ Index
                  -> Double
 xyTermSummation_ (m, n) f jce i =
-  let sum_xy =  xyProductSummation_ jce i in
+  let sum_xy = degreeToRadian $ xyProductSummation_ jce i in
     (m + n * jce) * f sum_xy
 
 nutation_ :: (Int -> (Double, Double)) -- ^ Coefficient function
