@@ -9,6 +9,7 @@ import Geocentric
 import Nutation
 import TrueObliquity
 import AberrationCorrection
+import ApparentSunLongitude
 
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.178 -- degrees
@@ -49,6 +50,7 @@ nobli = obliquity . jce
 
 teobli d = trueEclipticObliquity (meanEclipticObliquity $ jme d) (nobli d)
 ac = aberrationCorrection . ehrv
+asl d = apparentSunLongitude (glong d) (nlong d) (ac d)
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -121,6 +123,7 @@ oct172003123030tsm7 =
     assertEqual "True Ecliptic Obliquity" 23.440464473642695 $ teobli d -- SPA: 23.440465
 
     assertEqual "Aberration Correction" (-5.711326873640995e-3) $ ac d -- Manual: -0.00567193121257403
+    assertEqual "Apparent Sun Longitude" 203.9881976913291 $ asl d -- SPA: 204.0085519281, Manual: 203.988237453169
 
 main :: IO ()
 main = defaultMain (testGroup " SPA " tests)
