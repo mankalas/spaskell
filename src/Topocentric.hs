@@ -88,3 +88,17 @@ elevationAngle e_0 delta_e = e_0 + delta_e
 zenithAngle :: Double -- ^ Elevation Angle
             -> Double
 zenithAngle e = 90 - e
+
+astronomerAzimuth :: Double -- ^ Topocentric local hour angle
+                  -> Double -- ^ Observer latitude
+                  -> Double -- ^ Topocentric Sun declination
+                  -> Double
+astronomerAzimuth h_prime phi delta_prime =
+  let hr_prime = degreeToRadian h_prime
+      phir = degreeToRadian phi
+      deltar_prime = degreeToRadian delta_prime in
+    limitDegrees $ radianToDegree $ atan2 (sin hr_prime) (cos hr_prime * sin phir - tan deltar_prime * cos phir)
+
+azimuthAngle :: Double -- ^ Astronomer azimuth angle
+             -> Double
+azimuthAngle gamma = gamma + 180
