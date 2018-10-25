@@ -102,37 +102,38 @@ jan012000 =
 
 oct172003123030tsm7 :: TestTree
 oct172003123030tsm7 =
-  let d = (2003, 10, 17, 12, 30, 30, -7) in
+  let d = (2003, 10, 17, 12, 30, 30, observerTimeZone) in
     testCase "October 17, 2003 12:30:30 UT TZ -7" $ do
-    assertEqual "Julian day" 2452930.292361111 $ julianDay d -- SPA: 2452930.312847
-    assertEqual "Julian century" 0.037927237812756046 $ jc d
-    assertEqual "Julian ephemeris day" 2452930.293111076 $ jde d
-    assertEqual "Julian ephemeris century" 0.03792725834568413 $ jce d -- Differ from spa.c from here
-    assertEqual "Julian ephemeris millennium" 0.0037927258345684133 $ jme d
+    assertEqual "Julian day" 2452930.312847222 $ julianDay d -- SPA: 2452930.312847
+    assertEqual "Julian century" 3.792779869191517e-2 $ jc d
+    assertEqual "Julian ephemeris day" 2452930.3135971874 $ jde d
+    assertEqual "Julian ephemeris century" 3.792781922484326e-2 $ jce d -- Differ from spa.c from here
+    assertEqual "Julian ephemeris millennium" 3.7927819224843257e-3 $ jme d
 
-    assertEqual "Earth heliocentric longitude" 23.99790778438188 $ ehlong d -- SPA: 24.0182616917
-    assertEqual "Earth heliocentric latitude" (-1.0073878657373277e-4) $ ehlat d -- SPA: (-1.011219e-4)
-    assertEqual "Earth radius vector" 0.9965479540978688 $ ehrv d -- SPA: 0.99654229745
-    assertEqual "Geocentric longitude" 203.99790778438188 $ glong d -- SPA: 204.0182616917
-    assertEqual "Geocentric latitude" 1.0073878657373277e-4 $ glat d -- SPA: 0.0001011219
+    assertEqual "Earth heliocentric longitude" 24.018236389801046 $ ehlong d -- SPA: 24.0182616917
+    assertEqual "Earth heliocentric latitude" (-1.0112145045818696e-4) $ ehlat d -- SPA: (-1.011219e-4)
+    assertEqual "Earth radius vector" 0.9965423043855101 $ ehrv d -- SPA: 0.99654229745
+    assertEqual "Geocentric longitude" 204.01823638980105 $ glong d -- SPA: 204.0182616917
+    assertEqual "Geocentric latitude" 1.0112145045818696e-4 $ glat d -- SPA: 0.0001011219
 
-    assertEqual "Mean elongation (moon-sun)" 17185.611127185253 $ x0 d -- Manual: 17185.6111271853
-    assertEqual "Mean anomaly (sun)" 1722.8730022136986 $ x1 d -- Manual: 1722.8730022137
-    assertEqual "Mean anomaly (moon)" 18233.807718583503 $ x2 d -- Manual: 18233.8077185835
-    assertEqual "Argument latitude (moon)" 18419.799657022497 $ x3 d -- Manual: 18419.7996570225
-    assertEqual "Ascending longitude (moon)" 51.68803733221671 $ x4 d -- Manual: 51.6880373322167
+    assertEqual "Mean elongation (moon-sun)" 17185.860868228243 $ x0 d
+    assertEqual "Mean anomaly (sun)" 1722.8931933307758 $ x1 d
+    assertEqual "Mean anomaly (moon)" 18234.07536948335 $ x2 d
+    assertEqual "Argument latitude (moon)" 18420.070674963623 $ x3 d
+    assertEqual "Ascending longitude (moon)" 51.68695251558512 $ x4 d
 
-    assertEqual "Nutation Longitude" (-3.998766179133264e-3) $ nlong d -- SPA: -0.00399840
-    assertEqual "Nutation Obliquity" 1.6665147765963365e-3 $ nobli d -- SPA: 0.00166657
+    assertEqual "Nutation Longitude" (-3.998404752302298e-3) $ nlong d -- SPA: -0.00399840
+    assertEqual "Nutation Obliquity" 1.666568109562438e-3 $ nobli d -- SPA: 0.00166657
 
-    assertEqual "True Ecliptic Obliquity" 23.440464473642695 $ teobli d -- SPA: 23.440465
+    assertEqual "True Ecliptic Obliquity" 23.44046451968279 $ teobli d -- SPA: 23.440465
 
-    assertEqual "Aberration Correction" (-5.711326873640995e-3) $ ac d -- Manual: -0.00567193121257403
-    assertEqual "Apparent Sun Longitude" 203.9881976913291 $ asl d -- SPA: 204.0085519281, Manual: 203.988237453169
+    assertEqual "Aberration Correction" (-5.711359252952823e-3) $ ac d
+    assertEqual "Apparent Sun Longitude" 204.00852662579578 $ asl d -- SPA: 204.0085519281
 
-    assertEqual "Apparent sideral time" 311.1208707057544 $ ast d -- Manual: 311.120870661161
-    assertEqual "Sun Right Ascension" 202.20823126506485 $ sra d -- SPA: 202.22741
-    assertEqual "Sun Declination" (-9.306844762179702) $ sd d -- SPA: -9.31434
+    assertEqual "Apparent sideral time" 318.51606280670484 $ ast d
+    assertEqual "Sun Right Ascension" 202.2273839883552 $ sra d -- SPA: 202.22741
+    assertEqual "Sun Declination" (-9.314330774110559) $ sd d -- SPA: -9.31434
+
 
 main :: IO ()
 main = defaultMain (testGroup " SPA " tests)
