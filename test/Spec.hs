@@ -11,9 +11,10 @@ import TrueObliquity
 import AberrationCorrection
 import ApparentSunLongitude
 import ApparentSideralTime
+import ObserverLocalHourAngle
 
 observerLatitude = 39.743 -- degrees
-observerLongitude = -105.178 -- degrees
+observerLongitude = -105.1786 -- degrees
 observerTimeZone = -7.0 -- hours
 observerElevation = 1829 -- meters
 annualAverageLocalPressure = 835 -- millibars
@@ -56,6 +57,7 @@ asl d = apparentSunLongitude (glong d) (nlong d) (ac d)
 ast d = apparentSideralTime (meanSideralTime (jd d) (jc d)) (nlong d) (teobli d)
 sra d = sunRightAscension (asl d) (teobli d) (glat d)
 sd d = sunDeclination (asl d) (teobli d) (glat d)
+olha d l = angle (ast d) l (sra d)
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -134,6 +136,7 @@ oct172003123030tsm7 =
     assertEqual "Sun Right Ascension" 202.2273839883552 $ sra d -- SPA: 202.22741
     assertEqual "Sun Declination" (-9.314330774110559) $ sd d -- SPA: -9.31434
 
+    assertEqual "Observer local hour angle" 11.11007881834962 $ olha d observerLongitude -- SPA: 11.105900
 
 main :: IO ()
 main = defaultMain (testGroup " SPA " tests)
