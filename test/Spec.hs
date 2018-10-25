@@ -12,6 +12,7 @@ import AberrationCorrection
 import ApparentSunLongitude
 import ApparentSideralTime
 import ObserverLocalHourAngle
+import Topocentric
 
 observerLatitude = 39.743 -- degrees
 observerLongitude = -105.1786 -- degrees
@@ -55,9 +56,22 @@ teobli d = trueEclipticObliquity (meanEclipticObliquity $ jme d) (nobli d)
 ac = aberrationCorrection . ehrv
 asl d = apparentSunLongitude (glong d) (nlong d) (ac d)
 ast d = apparentSideralTime (meanSideralTime (jd d) (jc d)) (nlong d) (teobli d)
-sra d = sunRightAscension (asl d) (teobli d) (glat d)
-sd d = sunDeclination (asl d) (teobli d) (glat d)
-olha d l = angle (ast d) l (sra d)
+gsra d = Geocentric.sunRightAscension (asl d) (teobli d) (glat d)
+gsd d = Geocentric.sunDeclination (asl d) (teobli d) (glat d)
+olha d long = angle (ast d) long (gsra d)
+
+tu = Topocentric.u
+tx e l = Topocentric.x (u l) e l
+ty e l = Topocentric.y (u l) e l
+srap e lat long d = sunRightAscensionParallax (tx e lat) (sehp d) (olha d long) (gsd d)
+tlha e lat long d = Topocentric.localHourAngle (olha d long) (srap e lat long d)
+tsra e lat long d = Topocentric.sunRightAscension (gsra d) (srap e lat long d)
+sehp d = sunEquatorialHorizontalParallax $ ehrv d
+tsd e lat long d = Topocentric.sunDeclination (gsd d) (ty e lat) (sehp d) (srap e lat long d) (tx e lat) (olha d long)
+rawEa e lat long d = rawElevationAngle lat (tsd e lat long d) (tlha e lat long d)
+arc e lat long d p t = atmosphericRefractionCorrection p t (rawEa e lat long d)
+ea e lat long d p t = elevationAngle (rawEa e lat long d) (arc e lat long d p t)
+tza e lat long d p t = zenithAngle $ ea e lat long d p t
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -132,11 +146,17 @@ oct172003123030tsm7 =
     assertEqual "Aberration Correction" (-5.711359252952823e-3) $ ac d
     assertEqual "Apparent Sun Longitude" 204.00852662579578 $ asl d -- SPA: 204.0085519281
 
-    assertEqual "Sun Right Ascension" 202.2273839883552 $ sra d -- SPA: 202.22741
-    assertEqual "Sun Declination" (-9.314330774110559) $ sd d -- SPA: -9.31434
     assertEqual "Apparent sideral time" 318.51190984070877 $ ast d
+    assertEqual "Geocentric Sun Right Ascension" 202.2273839883552 $ gsra d -- SPA: 202.22741
+    assertEqual "Geocentric Sun Declination" (-9.314330774110559) $ gsd d -- SPA: -9.31434
 
-    assertEqual "Observer local hour angle" 11.11007881834962 $ olha d observerLongitude -- SPA: 11.105900
+    assertEqual "Observer local hour angle" 11.10592585235355 $ olha d observerLongitude -- SPA: 11.105900
+
+    assertEqual "Topocentric local hour angle" 11.106291841023339 $ tlha observerElevation observerLatitude observerLongitude d -- SPA: 11.10629
+    assertEqual "Topocentric sun right ascension" 202.22701799968542 $ tsra observerElevation observerLatitude observerLongitude d -- SPA: 202.22704
+    assertEqual "Topocentric sun declination" (-9.316156703892183) $ tsd observerElevation observerLatitude observerLongitude d -- SPA: -9.316179
+    assertEqual "Topocentric zenith angle" 50.111754358120464 $ tza observerElevation observerLatitude observerLongitude d annualAverageLocalPressure annualAverageLocalTemperature -- SPA: 50.11162
+
 
 main :: IO ()
 main = defaultMain (testGroup " SPA " tests)
