@@ -132,9 +132,9 @@ oct172003123030tsm7 =
     assertEqual "Aberration Correction" (-5.711359252952823e-3) $ ac d
     assertEqual "Apparent Sun Longitude" 204.00852662579578 $ asl d -- SPA: 204.0085519281
 
-    assertEqual "Apparent sideral time" 318.51606280670484 $ ast d
     assertEqual "Sun Right Ascension" 202.2273839883552 $ sra d -- SPA: 202.22741
     assertEqual "Sun Declination" (-9.314330774110559) $ sd d -- SPA: -9.31434
+    assertEqual "Apparent sideral time" 318.51190984070877 $ ast d
 
     assertEqual "Observer local hour angle" 11.11007881834962 $ olha d observerLongitude -- SPA: 11.105900
 

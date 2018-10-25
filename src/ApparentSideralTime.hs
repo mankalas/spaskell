@@ -11,4 +11,4 @@ apparentSideralTime :: Double -- ^ Mean Sideral Time
                     -> Double -- ^ Nutation Longitude
                     -> Double -- ^ True Ecliptic Obliquity
                     -> Double
-apparentSideralTime nu_0 delta_phi eps = limitDegrees nu_0 + delta_phi * cos eps
+apparentSideralTime nu_0 delta_phi eps = limitDegrees nu_0 + delta_phi * cos (degreeToRadian eps)
