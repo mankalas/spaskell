@@ -55,6 +55,7 @@ ac = aberrationCorrection . ehrv
 asl d = apparentSunLongitude (glong d) (nlong d) (ac d)
 ast d = apparentSideralTime (meanSideralTime (jd d) (jc d)) (nlong d) (teobli d)
 sra d = sunRightAscension (asl d) (teobli d) (glat d)
+sd d = sunDeclination (asl d) (teobli d) (glat d)
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -131,6 +132,7 @@ oct172003123030tsm7 =
 
     assertEqual "Apparent sideral time" 311.1208707057544 $ ast d -- Manual: 311.120870661161
     assertEqual "Sun Right Ascension" 202.20823126506485 $ sra d -- SPA: 202.22741
+    assertEqual "Sun Declination" (-9.306844762179702) $ sd d -- SPA: -9.31434
 
 main :: IO ()
 main = defaultMain (testGroup " SPA " tests)
