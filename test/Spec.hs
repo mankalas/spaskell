@@ -14,16 +14,16 @@ import ApparentSideralTime
 import ObserverLocalHourAngle
 import Topocentric
 
-observerLatitude = 39.743 -- degrees
+observerLatitude = 39.742476 -- degrees
 observerLongitude = -105.1786 -- degrees
 observerTimeZone = -7.0 -- hours
-observerElevation = 1829 -- meters
-annualAverageLocalPressure = 835 -- millibars
-annualAverageLocalTemperature = 10 -- Celsius
+observerElevation = 1830.14 -- meters
+annualAverageLocalPressure = 820 -- millibars
+annualAverageLocalTemperature = 11 -- Celsius
 deltaUT1 = 0.0 -- seconds
-deltaT = 64.797 -- seconds
-surfaceAzimuthRotation = 180 -- degrees
-surfaceSlope = 0 -- degrees
+deltaT = 67 -- seconds
+surfaceAzimuthRotation = -10 -- degrees
+surfaceSlope = 30 -- degrees
 atmosphericRefractionAtSunriseAndSunset = 0.5667 -- degrees
 
 tests = [
@@ -154,11 +154,11 @@ oct172003123030tsm7 =
 
     assertEqual "Observer local hour angle" 11.10592585235355 $ olha d observerLongitude -- SPA: 11.105900
 
-    assertEqual "Topocentric local hour angle" 11.106291841023339 $ tlha observerElevation observerLatitude observerLongitude d -- SPA: 11.10629
-    assertEqual "Topocentric sun right ascension" 202.22701799968542 $ tsra observerElevation observerLatitude observerLongitude d -- SPA: 202.22704
-    assertEqual "Topocentric sun declination" (-9.316156703892183) $ tsd observerElevation observerLatitude observerLongitude d -- SPA: -9.316179
-    assertEqual "Topocentric zenith angle" 50.111754358120464 $ tza observerElevation observerLatitude observerLongitude d annualAverageLocalPressure annualAverageLocalTemperature -- SPA: 50.11162
-    assertEqual "Topocentric azimuth angle" 194.34016449600472 $ taz observerElevation observerLatitude observerLongitude d -- SPA: 194.34024
+    assertEqual "Topocentric local hour angle" 11.106291843860792 $ tlha observerElevation observerLatitude observerLongitude d -- SPA: 11.10629
+    assertEqual "Topocentric sun right ascension" 202.22701799684796 $ tsra observerElevation observerLatitude observerLongitude d -- SPA: 202.22704
+    assertEqual "Topocentric sun declination" (-9.316156689621467) $ tsd observerElevation observerLatitude observerLongitude d -- SPA: -9.316179
+    assertEqual "Topocentric zenith angle" 50.11160449338912 $ tza observerElevation observerLatitude observerLongitude d annualAverageLocalPressure annualAverageLocalTemperature -- SPA: 50.11162
+    assertEqual "Topocentric azimuth angle" 194.34027291088302 $ taz observerElevation observerLatitude observerLongitude d -- SPA: 194.34024
 
 
 main :: IO ()
