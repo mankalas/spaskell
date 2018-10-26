@@ -13,6 +13,7 @@ import ApparentSunLongitude
 import ApparentSideralTime
 import ObserverLocalHourAngle
 import Topocentric
+import IncidenceAngle
 
 observerLatitude = 39.742476 -- degrees
 observerLongitude = -105.1786 -- degrees
@@ -58,7 +59,7 @@ asl d = apparentSunLongitude (glong d) (nlong d) (ac d)
 ast d = apparentSideralTime (meanSideralTime (jd d) (jc d)) (nlong d) (teobli d)
 gsra d = Geocentric.sunRightAscension (asl d) (teobli d) (glat d)
 gsd d = Geocentric.sunDeclination (asl d) (teobli d) (glat d)
-olha d long = angle (ast d) long (gsra d)
+olha d long = ObserverLocalHourAngle.angle (ast d) long (gsra d)
 
 tu = Topocentric.u
 tx e l = Topocentric.x (u l) e l
@@ -74,6 +75,7 @@ ea e lat long d p t = elevationAngle (rawEa e lat long d) (arc e lat long d p t)
 tza e lat long d p t = zenithAngle $ ea e lat long d p t
 aa e lat long d = astronomerAzimuth (tlha e lat long d) lat (tsd e lat long d)
 taz e lat long d = azimuthAngle $ aa e lat long d
+ia e lat long d p t sl sar = IncidenceAngle.angle (tza e lat long d p t) sl (aa e lat long d) sar
 
 -- julianDayTest :: TestTree
 -- julianDayTest = testCase "Julian Day" $ do
@@ -159,6 +161,8 @@ oct172003123030tsm7 =
     assertEqual "Topocentric sun declination" (-9.316156689621467) $ tsd observerElevation observerLatitude observerLongitude d -- SPA: -9.316179
     assertEqual "Topocentric zenith angle" 50.11160449338912 $ tza observerElevation observerLatitude observerLongitude d annualAverageLocalPressure annualAverageLocalTemperature -- SPA: 50.11162
     assertEqual "Topocentric azimuth angle" 194.34027291088302 $ taz observerElevation observerLatitude observerLongitude d -- SPA: 194.34024
+
+    assertEqual "Incidence angle for oriented surface" 25.186996900604335 $ ia observerElevation observerLatitude observerLongitude d annualAverageLocalPressure annualAverageLocalTemperature surfaceSlope surfaceAzimuthRotation -- SPA: 25.18700
 
 
 main :: IO ()
