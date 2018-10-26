@@ -15,18 +15,6 @@ import ObserverLocalHourAngle
 import Topocentric
 import IncidenceAngle
 
-observerLatitude = 39.742476 -- degrees
-observerLongitude = -105.1786 -- degrees
-observerTimeZone = -7.0 -- hours
-observerElevation = 1830.14 -- meters
-annualAverageLocalPressure = 820 -- millibars
-annualAverageLocalTemperature = 11 -- Celsius
-deltaUT1 = 0.0 -- seconds
-deltaT = 67 -- seconds
-surfaceAzimuthRotation = -10 -- degrees
-surfaceSlope = 30 -- degrees
-atmosphericRefractionAtSunriseAndSunset = 0.5667 -- degrees
-
 tests = [
 --  jan012000
   oct172003123030tsm7
@@ -122,7 +110,19 @@ jan012000 =
 
 oct172003123030tsm7 :: TestTree
 oct172003123030tsm7 =
-  let d = (2003, 10, 17, 12, 30, 30, observerTimeZone) in
+  let d = (2003, 10, 17, 12, 30, 30, observerTimeZone)
+      observerLatitude = 39.742476 -- degrees
+      observerLongitude = -105.1786 -- degrees
+      observerTimeZone = -7.0 -- hours
+      observerElevation = 1830.14 -- meters
+      annualAverageLocalPressure = 820 -- millibars
+      annualAverageLocalTemperature = 11 -- Celsius
+      deltaUT1 = 0.0 -- seconds
+      deltaT = 67 -- seconds
+      surfaceAzimuthRotation = -10 -- degrees
+      surfaceSlope = 30 -- degrees
+      atmosphericRefractionAtSunriseAndSunset = 0.5667 -- degrees
+  in
     testCase "October 17, 2003 12:30:30 UT TZ -7" $ do
     assertEqual "Julian day" 2452930.312847222 $ julianDay d -- SPA: 2452930.312847
     assertEqual "Julian century" 3.792779869191517e-2 $ jc d
